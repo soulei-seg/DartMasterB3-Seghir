@@ -46,9 +46,9 @@ module.exports = {
                         console.log('\n\nC\'est à votre tour de jouer ' + playerList[i].PlayerName +' !\n\n')
 
                         //Chaque joueur a 3 essais
-                        for(j = 1; j < 4; j ++){
-                                                        
+                        for(j = 1; j < 4; j ++){                    
                             let shot = readlineSync.question('Avez vous reussi votre lancer ' + j + ' ? [oui][non] : ')
+
                             while(shot != 'oui' && shot != 'non'){
                                 console.log('Merci de bien repondre par oui ou non.\n')
                                 shot = readlineSync.question('Avez vous reussi votre lancer ' + j + ' ? [oui][non] : ')
@@ -65,12 +65,9 @@ module.exports = {
                                     break
                                }  
                             } 
-                            
                             else if(shot == 'non'){
                                 console.log('Dommage.. Vous ferez mieux la au prochain lancer.\n')
                             }
-
-                            
                         }
                         console.log(playerList[i].PlayerName + ', votre score actuel vaut ' + playerList[i].score + '\n\n')
                         
@@ -92,7 +89,6 @@ module.exports = {
                     playerList[i].score = 301
                 }
 
-
                 while(win == false){
                 //On parcours la liste des joueurs
                     for(i = 0; i < playerList.length; i++){
@@ -104,7 +100,7 @@ module.exports = {
 
                             //Si le score est paire et que la soustraction du score à venir vaut 0
                             if(playerList[i].score == 2 && playerList[i].score - scoreDone == 0){
-                                console.log('Vous avez gagné')
+                                console.log(playerList[i].PlayerName + ' a remporté cette partie !')
                                 win = true
                                 break
                             }
