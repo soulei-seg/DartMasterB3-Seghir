@@ -97,22 +97,28 @@ module.exports = {
                         //Chaque joueur a 3 essais
                         for(j = 1; j < 4; j ++){
                             let scoreDone = readlineSync.questionInt('Nombre de points pour le lancer ' + j + ' : ')
+                            let multiplicator = readlineSync.questionInt('Quel est votre mutliplicateur ? x1[1] x2[2] x3[3] : ')
 
-                            //Si le score est paire et que la soustraction du score à venir vaut 0
-                            if(playerList[i].score == 2 && playerList[i].score - scoreDone == 0){
+                            while(multiplicator != '1' && multiplicator != '2' && multiplicator != '3'){
+                                console.log('Merci de bien repondre par 1, 2 ou 3\n')
+                                multiplicator = readlineSync.questionInt('Avez vous un multiplicateur ? x1[1] x2[2] x3[3]  : ')
+                            }
+
+                            //Si le score vaut 2 et que la soustraction du score à venir vaut 0
+                            if(playerList[i].score == 2 && playerList[i].score - scoreDone*multiplicator == 0){
                                 console.log(playerList[i].PlayerName + ' a remporté cette partie !')
                                 win = true
                                 break
                             }
 
                             //si le score à venir est supérieur à 1
-                            else if(playerList[i].score - scoreDone > 1){
-                                playerList[i].score -= scoreDone
+                            else if(playerList[i].score - scoreDone*multiplicator > 1){
+                                playerList[i].score -= scoreDone*multiplicator
                                 console.log('Votre score actuel vaut ' + playerList[i].score +'\n')
                             }
 
                             //si le score à venir est inférieur ou égal à 1
-                            else if(playerList[i].score - scoreDone < 0 || playerList[i].score - scoreDone == 1){
+                            else if(playerList[i].score - scoreDone*multiplicator < 0 || playerList[i].score - scoreDone*multiplicator == 1){
                                 console.log('Votre score ne peut pas être négatif ou égal à 1.\nVous devez également terminer votre tour final par un double.\nTour passé.\n')
                             }
                             else{
