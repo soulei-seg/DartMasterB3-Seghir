@@ -6,6 +6,9 @@ const TourDuMonde = require('../classes/TourDuMonde')
 module.exports = {
 
     InitializeGame() {
+
+        let win = false
+
         const playerList = require('../main')
         //Création de la Game
         let gameName = readlineSync.question('Saisissez un nom pour la partie : ')
@@ -36,7 +39,6 @@ module.exports = {
             case 'Tour du Monde':
                 console.log('Vous avez choisit le mode \'Tour du Monde\'')
 
-                let win = false
                 while(win == false){
 
                     //On parcours la liste des joueurs
@@ -84,9 +86,48 @@ module.exports = {
 
             case '301':
                 console.log('Vous avez choisit le mode \'301\'')
-                let win = false
+
+                // chaque joueur démarre avec 301 points
+                for(i = 0; i < playerList.length; i++){
+                    playerList[i].score = 301
+                }
+
+
                 while(win == false){
-                    return true
+                //On parcours la liste des joueurs
+                    for(i = 0; i < playerList.length; i++){
+                        console.log('\n\nC\'est à votre tour de jouer ' + playerList[i].PlayerName +' !\nScore actuel : ' + playerList[i].score + '\n\n')
+
+                        //Chaque joueur a 3 essais
+                        for(j = 1; j < 4; j ++){
+                            let scoreDone = readlineSync.questionInt('Nombre de points pour le lancer ' + j + ' : ')
+
+                            //Si le score est paire et que la soustraction du score à venir vaut 0
+                            if(playerList[i].score == 2 && playerList[i].score - scoreDone == 0){
+                                console.log('Vous avez gagné')
+                                win = true
+                                break
+                            }
+
+                            //si le score à venir est supérieur à 1
+                            else if(playerList[i].score - scoreDone > 1){
+                                playerList[i].score -= scoreDone
+                                console.log('Votre score actuel vaut ' + playerList[i].score +'\n')
+                            }
+
+                            //si le score à venir est inférieur ou égal à 1
+                            else if(playerList[i].score - scoreDone < 0 || playerList[i].score - scoreDone == 1){
+                                console.log('Votre score ne peut pas être négatif ou égal à 1.\nVous devez également terminer votre tour final par un double.\nTour passé.\n')
+                            }
+                            else{
+                                console.log('Vous devez terminer votre tour final par un double.\nTour passé.\n')
+                            }
+                        }
+                        //on quitte la boucle
+                        if(win == true){
+                            break
+                        }
+                    }
                 }
                 break
             case 'Cricket':
