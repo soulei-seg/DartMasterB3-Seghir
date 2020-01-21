@@ -1,9 +1,9 @@
 const Game = require('./gameClass')
 
 class TourDuMonde extends Game {
-    constructor(gameMode, name, playerList){
+    constructor(mode, name, playerList){
         super(name, playerList)
-        this.gameMode = gameMode
+        this.mode = mode
     }
 }
 
