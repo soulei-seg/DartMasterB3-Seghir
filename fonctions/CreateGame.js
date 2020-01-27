@@ -1,5 +1,6 @@
 var readlineSync = require('readline-sync')
-const Game = require('../classes/gameClass')
+const Game = require('../classes/game')
+var shuffle = require('shuffle-array')
 const TourDuMonde = require('../classes/TourDuMonde')
 
 
@@ -7,7 +8,6 @@ module.exports = {
 
     InitializeGame() {
 
-        let win = false
         let isOver = false
 
         const playerList = require('../main')
@@ -16,6 +16,7 @@ module.exports = {
         let game = new Game(gameName, playerList)
 
         while(isOver != true){
+            let win = false
             //Sélection du mode de jeu
             let mode = readlineSync.questionInt('Modes de jeu disponibles :\n- Tour du monde [1]\n- 301 [2]\n- Cricket [3]\n\nVotre choix : ')
             while(mode != 1 && mode != 2 && mode != 3){
@@ -45,7 +46,7 @@ module.exports = {
 
                         //On parcours la liste des joueurs
                         for(i = 0; i < playerList.length; i++){
-                            console.log('\n\nC\'est à votre tour de jouer ' + playerList[i].PlayerName +' !\n\n')
+                            console.log('\n\nC\'est à votre tour de jouer ' + playerList[i].PlayerName +' !\nScore actuel : ' + playerList[i].score + '\n\n')
 
                             //Chaque joueur a 3 essais
                             for(j = 1; j < 4; j ++){
@@ -61,8 +62,15 @@ module.exports = {
 
                                     //si le joueur arrive à 20 points
                                     if(playerList[i].score == 20){
-                                        console.log(playerList[i].PlayerName + ' a remporté cette partie !')
-                                        playerList[i].GameWin += 1
+                                        playerList[i].gameWin += 1
+                                        console.log(playerList[i].PlayerName + ' a remporté cette partie !\nIl a actuellement ' + playerList[i].gameWin + ' victoires à son compteur.')
+                                    //Les autres joueurs ont perdu
+                                    for(j = 0; j < playerList.length; j++){
+                                        if(playerList[j].score != 20){
+                                            playerList[j].gameLost += 1
+                                        }
+                                    }
+                                    console.log(playerList)
                                         win = true
                                         break
                                    }
@@ -108,7 +116,15 @@ module.exports = {
 
                                 //Si le score vaut 2 et que la soustraction du score à venir vaut 0
                                 if(playerList[i].score == 2 && playerList[i].score - scoreDone*multiplicator == 0){
-                                    console.log(playerList[i].PlayerName + ' a remporté cette partie !')
+                                    playerList[i].score -= 2
+                                    playerList[i].gameWin += 1
+                                    console.log(playerList[i].PlayerName + ' a remporté cette partie !\nIl a actuellement ' + playerList[i].gameWin + ' victoires à son compteur.')
+                                    //Les autres joueurs ont perdu
+                                    for(j = 0; j < playerList.length; j++){
+                                        if(playerList[j].score != 0){
+                                            playerList[j].gameLost += 1
+                                        }
+                                    }                                    
                                     win = true
                                     break
                                 }
@@ -134,10 +150,35 @@ module.exports = {
                         }
                     }
                     break
+
+
+
+
                 case 'Cricket':
                     console.log('Vous avez choisit le mode \'Cricket\'')
+                    let num15, num16, num17, num18, num19, num20, bubble = 3
+                    while(win == false){
+                        for(i = 0; i < playerList.length; i++){
+                            console.log('\n\nC\'est à votre tour de jouer ' + playerList[i].PlayerName +' !\nScore actuel : ' + playerList[i].score + '\n\n')
+                            let nbtouched = readlineSync.question('Avez-vous atteint un nombre ? [oui][non] : ')
+                        }
+                        while(nbtouched != 'oui' && replay != 'non'){
+                            console.log('Merci de bien repondre par oui ou non.\n')
+                            nbtouched = readlineSync.question('Avez-vous atteint un nombre ? [oui][non] : \n')
+                        }
+                        if(nbtouched == 'oui'){
+                            let numtouched = readlineSync.question('Quel nombre avez vous atteint ? : ')
+
+                        }
+                    }
                     break
             }
+
+
+                joueur3+num15
+
+
+
             let replay = readlineSync.question('Souhaitez vous faire une autre partie ? [oui][non] : ')
 
             while(replay != 'oui' && replay != 'non'){
@@ -146,7 +187,12 @@ module.exports = {
             }
             switch(replay) {
                 case 'oui':
-                    console.log('Vous relancez une partie')
+                    console.log('Vous relancez une partie\n')
+                    //on réinitialise les score
+                    for(i = 1; i < playerList.length; i++){
+                        playerList[i].score = 0
+                    }
+                    shuffle(playerList)
                     break
 
                 case 'non':

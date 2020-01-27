@@ -1,4 +1,4 @@
-const Game = require('./gameClass')
+const Game = require('./game')
 
 class TourDuMonde extends Game {
     constructor(mode, name, playerList){

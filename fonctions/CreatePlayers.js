@@ -1,6 +1,6 @@
 var shuffle = require('shuffle-array')
 var readlineSync = require('readline-sync')
-const Player = require('../classes/playerClass')
+const Player = require('../classes/player')
 
 
 module.exports = {
@@ -24,5 +24,6 @@ module.exports = {
         }
         //On range les joueurs dans un ordre aléatoire
         shuffle(playerList)
+        console.log(playerList)
     }
 }
