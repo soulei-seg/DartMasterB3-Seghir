@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 const playerSchema = mongoose.Schema ({
     _id: mongoose.Schema.ObjectId,
     id: String,
